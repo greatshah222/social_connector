@@ -61,12 +61,14 @@ exports.signup = async (req, res) => {
   createSendToken(newUser, 201, res);
 };
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: [{ msg: 'Please provide your credentials' }],
+      errors: errors.array(),
     });
   }
+  const { email, password } = req.body;
+
   const user = await User.findOne({ email }).select('+password');
   if (!user || !(await user.checkUserAndDBPassword(password, user.password))) {
     return res.status(400).json({
@@ -94,4 +96,14 @@ exports.protect = async (req, res, next) => {
   }
   req.user = currentUser;
   next();
+};
+
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 0.2 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({
+    status: 'success',
+  });
 };
