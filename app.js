@@ -8,6 +8,7 @@ const authRouter = require('./routes/authRouter');
 const profileRouter = require('./routes/profileRouter');
 const postRouter = require('./routes/postRouter');
 const userRouter = require('./routes/userRouter');
+const commentRouter = require('./routes/commentRoutes');
 const app = express();
 
 if (process.env.NODE_ENV === 'development') {
@@ -39,5 +40,6 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/profile', profileRouter);
 app.use('/api/v1/posts', postRouter);
+app.use('/api/v1/comments', commentRouter);
 
 module.exports = app;

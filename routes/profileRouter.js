@@ -12,6 +12,7 @@ const {
   deleteSingleExperience,
   updateEducation,
   deleteSingleEducation,
+  githubInfo,
 } = require('../controllers/profileController');
 
 const router = express.Router();
@@ -75,5 +76,8 @@ router.delete('/experience/:exp_id', protect, deleteSingleExperience);
 
 // DELETE EDUCATION'
 router.delete('/education/:education_id', protect, deleteSingleEducation);
+
+// GITUHUB INFO ACCORDING TO THE USERNAME
+router.get('/github/:username', githubInfo);
 
 module.exports = router;

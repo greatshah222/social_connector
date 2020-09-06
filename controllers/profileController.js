@@ -1,6 +1,7 @@
 const Profile = require('../modals/profileModal');
 const { validationResult } = require('express-validator');
 const User = require('../modals/userModal');
+const axios = require('axios');
 
 exports.getOwnProfileDetail = async (req, res) => {
   const profile = await Profile.findOne({ user: req.user._id }).populate(
@@ -254,6 +255,33 @@ exports.deleteSingleEducation = async (req, res) => {
     length: profile.length,
     data: {
       data: profile,
+    },
+  });
+};
+
+// git githubInfo. if u use github token there will be no limit in sent request
+
+exports.githubInfo = async (req, res) => {
+  const headers = {
+    'user-agent': 'node.js',
+    Authorization: `token ${process.env.GITHUB_TOKEN}`,
+  };
+  let respo;
+  try {
+    respo = await axios.get(
+      `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`,
+      { headers }
+    );
+  } catch (error) {
+    return res.status(404).json({
+      msg: 'No github profile found ',
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: respo.data,
     },
   });
 };
