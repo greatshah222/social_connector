@@ -27,6 +27,37 @@ const postSchema = new mongoose.Schema(
         },
       },
     ],
+    startLocation: {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      // dont know why but this must be named coordiantes for the geo keys validation
+      coordinates: [Number],
+      startAddress: {
+        type: String,
+        required: true,
+      },
+      startDescription: {
+        type: String,
+        required: true,
+      },
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+
+        address: { type: String, required: true },
+        description: { type: String, required: true },
+        day: { type: Number, required: true },
+      },
+    ],
   },
   // for virtual property to work
   {
@@ -34,6 +65,8 @@ const postSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+postSchema.index({ startLocation: '2dsphere' });
 
 // for the virtual property of comment
 // comments is the name given by us

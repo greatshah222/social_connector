@@ -9,6 +9,7 @@ const {
   getPostByPostID,
   deletePost,
   likeUpdateForPost,
+  addMoreLocations,
 } = require('../controllers/postController');
 
 const router = express.Router();
@@ -17,7 +18,12 @@ router.use('/:post_id/comments', commentRoutes);
 
 router.post(
   '/',
-  [protect, check('description', 'Description is Required').not().isEmpty()],
+  [
+    protect,
+    check('description', 'Description is Required').not().isEmpty(),
+    check('startDescription', ' Start Description is Required').not().isEmpty(),
+    check('startAddress', ' Start Address is Required').not().isEmpty(),
+  ],
   createNewPost
 );
 router.get('/', protect, getAllPosts);
@@ -26,4 +32,15 @@ router.delete('/:id', protect, deletePost);
 
 // update like for posts and includes unlike
 router.patch('/like/:id', protect, likeUpdateForPost);
+// add more locations
+router.patch(
+  '/location/:id',
+  [
+    protect,
+    check('day', 'Day is Required').not().isEmpty(),
+    check('description', ' Description is Required').not().isEmpty(),
+    check('address', '  Address is Required').not().isEmpty(),
+  ],
+  addMoreLocations
+);
 module.exports = router;
