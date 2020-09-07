@@ -40,8 +40,30 @@ exports.deleteComment = async (req, res) => {
       msg: 'Not Authorized',
     });
   }
-  await comment.remove();
+  // have to use findByIDAnd delete so that our post middleware for updating the comment in the post will work
+  await Comment.findByIdAndDelete(req.params.comment_id);
   res.status(204).json({
     status: 'success',
+  });
+};
+exports.updateSingleComment = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const post = await Post.findById(req.params.post_id);
+  const comment = await Comment.findById(req.params.comment_id);
+  if (!post || !comment) {
+    return res.status(400).json({
+      msg: 'No document found',
+    });
+  }
+  comment.comment = req.body.comment;
+  await comment.save();
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: comment,
+    },
   });
 };

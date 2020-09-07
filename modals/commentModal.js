@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Post = require('./postModal');
 
 const commentSchema = new mongoose.Schema({
   comment: {
@@ -6,7 +7,7 @@ const commentSchema = new mongoose.Schema({
     required: true,
   },
 
-  date: {
+  createdAt: {
     type: Date,
     default: Date.now(),
   },
@@ -44,6 +45,41 @@ commentSchema.pre(/^find/, function (next) {
   next();
 });
 
+commentSchema.statics.calculateTotalNumberOfComments = async function (postID) {
+  const stats = await this.aggregate([
+    {
+      $match: { post: postID },
+    },
+    {
+      $group: {
+        _id: '$post',
+        ncomment: { $sum: 1 },
+      },
+    },
+  ]);
+  console.log(stats);
+  if (stats.length > 0) {
+    await Post.findByIdAndUpdate(postID, {
+      commentsQuantity: stats[0].ncomment,
+    });
+  } else {
+    await Post.findByIdAndUpdate(postID, {
+      commentsQuantity: 0,
+    });
+  }
+};
+commentSchema.post('save', function () {
+  this.constructor.calculateTotalNumberOfComments(this.post);
+});
+commentSchema.pre(/^findOneAnd/, async function (next) {
+  this.r = await this.findOne();
+  console.log(this.r);
+  next();
+});
+
+commentSchema.post(/^findOneAnd/, async function () {
+  await this.r.constructor.calculateTotalNumberOfComments(this.r.post);
+});
 const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = Comment;

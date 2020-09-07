@@ -10,6 +10,14 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
 
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    commentsQuantity: {
+      type: Number,
+      default: 0,
+    },
     // likes has an array of user object so that 1 user can only like 1 post 1 time
     likes: [
       {
@@ -19,10 +27,6 @@ const postSchema = new mongoose.Schema(
         },
       },
     ],
-    date: {
-      type: Date,
-      default: Date.now,
-    },
   },
   // for virtual property to work
   {

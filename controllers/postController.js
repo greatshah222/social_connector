@@ -1,5 +1,4 @@
 const { validationResult } = require('express-validator');
-const User = require('../modals/userModal');
 const Post = require('../modals/postModal');
 
 exports.createNewPost = async (req, res) => {
@@ -7,7 +6,7 @@ exports.createNewPost = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const user = await User.findById(req.user._id);
+
   const newPost = {
     description: req.body.description,
     user: req.user._id,
@@ -25,6 +24,7 @@ exports.getAllPosts = async (req, res) => {
   const posts = await Post.find()
     .sort({ date: -1 })
     .populate({ path: 'comments' });
+
   res.status(200).json({
     status: 'success',
     length: posts.length,
