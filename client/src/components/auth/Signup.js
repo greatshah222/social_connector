@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAlert } from '../../store/alert';
 import { signupUser } from '../../store/auth';
 
@@ -12,6 +12,7 @@ export const Signup = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const dispatch = useDispatch();
+  const { isAuthenticated, token } = useSelector((state) => state.auth);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -20,7 +21,9 @@ export const Signup = () => {
     }
     await dispatch(signupUser(name, email, password, passwordConfirm));
   };
-
+  if (isAuthenticated && token) {
+    return <Redirect to='/' />;
+  }
   return (
     <section className='container'>
       <h1 className='large text-primary'>Sign Up</h1>

@@ -106,3 +106,27 @@ exports.logout = (req, res) => {
     status: 'success',
   });
 };
+
+exports.isLoggedIn = async (req, res) => {
+  let token, currentUser;
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+    try {
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
+      currentUser = await User.findById(decoded.id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      token,
+      currentUser,
+    },
+  });
+};

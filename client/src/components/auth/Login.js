@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../store/auth';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+  const { isAuthenticated, token } = useSelector((state) => state.auth);
+
   const formSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    await dispatch(loginUser(email, password));
   };
+  if (isAuthenticated && token) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <section className='container'>

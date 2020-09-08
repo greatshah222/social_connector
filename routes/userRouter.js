@@ -2,7 +2,12 @@ const express = require('express');
 
 const { check } = require('express-validator');
 
-const { signup, login, logout } = require('../controllers/userController');
+const {
+  signup,
+  login,
+  logout,
+  isLoggedIn,
+} = require('../controllers/userController');
 
 const router = express.Router();
 router.post(
@@ -26,5 +31,6 @@ router.post(
   login
 );
 router.get('/logout', logout);
+router.get('/token', isLoggedIn);
 
 module.exports = router;

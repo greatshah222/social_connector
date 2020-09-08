@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export const Navbar = () => {
+  const { isAuthenticated, token, loading } = useSelector(
+    (state) => state.auth
+  );
+
+  let content;
   return (
     <nav className='navbar bg-dark'>
       <h1>
@@ -13,12 +19,21 @@ export const Navbar = () => {
         <li>
           <Link to='/'>Developers</Link>
         </li>
-        <li>
-          <Link to='/signup'>Signup</Link>
-        </li>
-        <li>
-          <Link to='/login'>Login</Link>
-        </li>
+        {!isAuthenticated && !token && !loading && (
+          <li>
+            <Link to='/signup'>Signup</Link>
+          </li>
+        )}
+        {!isAuthenticated && !token && !loading && (
+          <li>
+            <Link to='/login'>Login</Link>
+          </li>
+        )}
+        {isAuthenticated && token && (
+          <li>
+            <Link to='/logout'>Logout</Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
