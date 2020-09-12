@@ -15,7 +15,7 @@ export const Login = () => {
     await dispatch(loginUser(email, password));
   };
   if (isAuthenticated && token) {
-    return <Redirect to='/' />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (

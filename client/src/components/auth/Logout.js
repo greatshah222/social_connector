@@ -8,6 +8,6 @@ export const Logout = () => {
 
   useEffect(() => {
     dispatch(logoutUser());
-  }, []);
+  }, [dispatch]);
   return <Redirect to='/login' />;
 };

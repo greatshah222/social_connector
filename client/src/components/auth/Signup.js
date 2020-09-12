@@ -22,7 +22,7 @@ export const Signup = () => {
     await dispatch(signupUser(name, email, password, passwordConfirm));
   };
   if (isAuthenticated && token) {
-    return <Redirect to='/' />;
+    return <Redirect to='/dashboard' />;
   }
   return (
     <section className='container'>

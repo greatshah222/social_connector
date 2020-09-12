@@ -8,6 +8,7 @@ import {
   SET_USER_SUCCESS,
   SET_USER_FAIL,
   LOGOUT,
+  PROFILE_CLEAR,
 } from '../reducers/actionTypes';
 export const fetchUserDataFromCookie = () => {
   return async (dispatch) => {
@@ -111,6 +112,10 @@ export const logoutUser = () => {
       console.log(res);
       dispatch({
         type: LOGOUT,
+      });
+      // WHEN WE LOGOUT WE ALSO HAVE TO CLEAR THE PROFILE FROM THE STATE
+      dispatch({
+        type: PROFILE_CLEAR,
       });
     } catch (error) {
       const errors = error.response.data.errors;

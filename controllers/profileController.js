@@ -8,8 +8,11 @@ exports.getOwnProfileDetail = async (req, res) => {
     'user'
   );
   if (!profile) {
-    return res.status(400).json({ msg: 'There is no profile for this user.' });
+    return res.status(400).json({
+      errors: [{ msg: 'There is no profile for this user' }],
+    });
   }
+
   res.json({
     status: 'success',
     data: {
@@ -50,7 +53,10 @@ exports.createUserProfile = async (req, res) => {
   if (status) profileFields.status = status;
   if (githubusername) profileFields.githubusername = githubusername;
   // in our modal skills is an array so we are changing all the skill of the user seperated by commas and in triming them to an array
-  if (skills) profileFields.skills = skills.split(',').map((el) => el.trim());
+  console.log(skills);
+  // in the update method the skills is already an array
+  if (skills && !Array.isArray(skills))
+    profileFields.skills = skills.split(',').map((el) => el.trim());
 
   // our social field is object in pur profile modal
   profileFields.social = {};
@@ -108,7 +114,9 @@ exports.getProfileByUserID = async (req, res) => {
     select: 'avatar name',
   });
   if (!profile) {
-    return res.status(400).json({ msg: 'Profile Not found.' });
+    return res.status(400).json({
+      errors: [{ msg: 'No Profile Found' }],
+    });
   }
   res.json({
     status: 'success',
@@ -273,8 +281,8 @@ exports.githubInfo = async (req, res) => {
       { headers }
     );
   } catch (error) {
-    return res.status(404).json({
-      msg: 'No github profile found ',
+    return res.status(400).json({
+      errors: [{ msg: 'No github profile found for this user' }],
     });
   }
 

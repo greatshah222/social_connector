@@ -31,6 +31,11 @@ export const Navbar = () => {
         )}
         {isAuthenticated && token && (
           <li>
+            <Link to='/dashboard'>Dashboard</Link>
+          </li>
+        )}
+        {isAuthenticated && token && (
+          <li>
             <Link to='/logout'>Logout</Link>
           </li>
         )}
