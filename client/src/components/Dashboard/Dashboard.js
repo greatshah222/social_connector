@@ -31,11 +31,17 @@ export const Dashboard = () => {
       {profile ? (
         <>
           {' '}
-          <>
+          <div
+            style={{
+              display: 'flex',
+              placeItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
             <DashboardDetails />
             <Experience experience={profile.experience} />
             <Education education={profile.education} />
-          </>
+          </div>
         </>
       ) : (
         <>

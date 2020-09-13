@@ -223,7 +223,7 @@ export const CreateProfile = () => {
               initialValid='true'
               validators={[VALIDATOR_NONE()]}
               ficon={['fab', 'twitter']}
-              initialValue={profile && profile.social.twitter}
+              initialValue={profile && profile.social && profile.social.twitter}
             />
             <Input
               id='facebook'
@@ -236,7 +236,9 @@ export const CreateProfile = () => {
               initialValid='true'
               validators={[VALIDATOR_NONE()]}
               ficon={['fab', 'facebook']}
-              initialValue={profile && profile.social.facebook}
+              initialValue={
+                profile && profile.social && profile.social.facebook
+              }
             />
             <Input
               id='linkedin'
@@ -249,7 +251,9 @@ export const CreateProfile = () => {
               initialValid='true'
               validators={[VALIDATOR_NONE()]}
               ficon={['fab', 'linkedin']}
-              initialValue={profile && profile.social.linkedin}
+              initialValue={
+                profile && profile.social && profile.social.linkedin
+              }
             />
             <Input
               id='youtube'
@@ -262,7 +266,7 @@ export const CreateProfile = () => {
               initialValid='true'
               validators={[VALIDATOR_NONE()]}
               ficon={['fab', 'youtube']}
-              initialValue={profile && profile.social.youtube}
+              initialValue={profile && profile.social && profile.social.youtube}
             />
             <Input
               id='instagram'
@@ -275,7 +279,9 @@ export const CreateProfile = () => {
               initialValid='true'
               validators={[VALIDATOR_NONE()]}
               ficon={['fab', 'instagram']}
-              initialValue={profile && profile.social.instagram}
+              initialValue={
+                profile && profile.social && profile.social.instagram
+              }
             />
             <div>
               <button

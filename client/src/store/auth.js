@@ -16,7 +16,7 @@ export const fetchUserDataFromCookie = () => {
       dispatch({
         type: SET_USER_INIT,
       });
-      const res = await axios.get('users/token', { withCredentials: true });
+      const res = await axios.get('/users/token', { withCredentials: true });
       console.log(res);
       // if there is token we will do sucess but if there is no token we have to do fail to change the loading state from true to false
       if (res.data.data.token && res.data.data.currentUser) {
@@ -50,7 +50,7 @@ export const signupUser = (name, email, password, passwordConfirm) => {
         type: AUTH_INIT,
       });
 
-      const res = await axios.post('users/signup', data, {
+      const res = await axios.post('/users/signup', data, {
         withCredentials: true,
       });
       console.log(res.data.token);
@@ -81,7 +81,7 @@ export const loginUser = (email, password) => {
         type: AUTH_INIT,
       });
 
-      const res = await axios.post('users/login', data, {
+      const res = await axios.post('/users/login', data, {
         withCredentials: true,
       });
       console.log(res);
@@ -108,7 +108,7 @@ export const logoutUser = () => {
       dispatch({
         type: AUTH_INIT,
       });
-      const res = await axios.get('users/logout', { withCredentials: true });
+      const res = await axios.get('/users/logout', { withCredentials: true });
       console.log(res);
       dispatch({
         type: LOGOUT,

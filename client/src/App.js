@@ -51,6 +51,9 @@ function App() {
       <>
         <section className='container'>
           <Alert />
+          <Route path='/add-education/:id?'>
+            <AddEducation />{' '}
+          </Route>
           <Route exact path='/logout'>
             <Logout />
           </Route>
@@ -60,10 +63,8 @@ function App() {
           <Route exact path='/create-profile'>
             <CreateProfile />
           </Route>
-          <Route exact path='/add-education'>
-            <AddEducation />{' '}
-          </Route>
-          <Route exact path='/add-experience'>
+
+          <Route exact path='/add-experience/:id?'>
             <AddExperienc />{' '}
           </Route>
           <Redirect to='/dashboard' />

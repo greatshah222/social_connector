@@ -141,12 +141,14 @@ exports.deleteUserOwnProfile = async (req, res) => {
 /// updateExperience
 
 exports.updateExperience = async (req, res) => {
+  const experienceID = req.params.experience_id;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
   const { title, company, location, to, from, current, description } = req.body;
+
   // create a new object to store all the experience
   const newExperience = {
     title,
@@ -159,6 +161,33 @@ exports.updateExperience = async (req, res) => {
   };
 
   const profile = await Profile.findOne({ user: req.user.id });
+  if (experienceID) {
+    const allExperience = [...profile.experience];
+
+    const singleExperience = allExperience.find(
+      (el) => el._id.toString() === experienceID
+    );
+    const index = allExperience.indexOf(singleExperience);
+
+    if (title) singleExperience.title = title;
+    if (company) singleExperience.company = company;
+    if (location) singleExperience.location = location;
+    if (to) singleExperience.to = to;
+    if (from) singleExperience.from = from;
+    if (current) singleExperience.current = current;
+    if (description) singleExperience.description = description;
+
+    allExperience[index] = singleExperience;
+    profile.experience = allExperience;
+    await profile.save();
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        data: profile,
+      },
+    });
+  }
+  // creating new experience
   // push pushes to the end but if u want to do it in the beginning u can use unshift()
   profile.experience.push(newExperience);
   await profile.save();
@@ -254,6 +283,16 @@ exports.updateEducation = async (req, res) => {
 
 exports.deleteSingleEducation = async (req, res) => {
   const profile = await Profile.findOne({ user: req.user.id });
+  const toDeleteDoc = profile.education.find(
+    (el) => el._id.toString() === req.params.education_id
+  );
+  if (!toDeleteDoc) {
+    return res.status(400).json({
+      errors: [
+        { msg: 'No document Found. Please refresh the page or login again.' },
+      ],
+    });
+  }
   profile.education = profile.education.filter(
     (el) => el._id.toString() !== req.params.education_id
   );

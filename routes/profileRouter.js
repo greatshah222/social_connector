@@ -42,7 +42,7 @@ router.delete('/', protect, deleteUserOwnProfile);
 // update profile experience
 
 router.patch(
-  '/experience',
+  '/experience/:experience_id?',
   [
     protect,
     check('title', 'Title is Required').not().isEmpty(),
