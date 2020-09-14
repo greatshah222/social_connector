@@ -8,44 +8,37 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import classes from '../../shared/Inputs/Input.module.css';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { addEducation } from '../../store/profile';
+import { addExperience } from '../../store/profile';
 import moment from 'moment';
 
-export const AddEducation = () => {
+export const AddExperienc = () => {
   const { profile } = useSelector((state) => state.profile);
   const [singleProfileForUpdate, setSingleProfileForUpdate] = useState(null);
   const [loading, setLoading] = useState(true);
-  const educationId = useParams().id;
+  const experienceId = useParams().id;
 
   const history = useHistory();
   const dispatch = useDispatch();
-
   useEffect(() => {
-    if (educationId && profile) {
-      const te = profile.education.find((el) => el._id == educationId);
+    if (experienceId && profile) {
+      const te = profile.experience.find((el) => el._id === experienceId);
 
       setSingleProfileForUpdate(te);
       setLoading(false);
     }
     setLoading(false);
-  }, []);
-  if (singleProfileForUpdate) {
-    const d = moment(singleProfileForUpdate.to).format('YYYY-MM-DD');
-
-    console.log(d);
-  }
-  const selectData = ['true', 'false'];
+  }, [experienceId, profile]);
   const [state, InputHandler] = useForm(
     {
-      school: {
+      title: {
         value: '',
         isValid: false,
       },
-      degree: {
+      company: {
         value: '',
         isValid: false,
       },
-      fieldofstudy: {
+      location: {
         value: '',
         isValid: true,
       },
@@ -69,98 +62,107 @@ export const AddEducation = () => {
     false
   );
   console.log(state);
-
+  const selectData = ['true', 'false'];
   const submitHanlder = async (e) => {
     e.preventDefault();
-    const {
-      school,
+    let {
+      title,
       description,
-      degree,
-      fieldofstudy,
+      company,
+      location,
 
-      to,
       from,
     } = state.inputs;
     let current;
     current = state.inputs.current.value === 'true' ? true : false;
+    let to;
+    if (current) {
+      to = null;
+    } else {
+      to = state.inputs.to.value;
+    }
+
     const formData = {
-      school: school.value,
+      title: title.value,
       description: description.value,
-      degree: degree.value,
-      fieldofstudy: fieldofstudy.value,
+      company: company.value,
+      location: location.value,
       from: from.value,
-      to: to.value,
+      to,
       current,
     };
-
-    await dispatch(addEducation(formData, history, educationId));
+    await dispatch(addExperience(formData, history, experienceId));
   };
+  console.log(state);
   return (
     !loading && (
       <>
         <div className={classes.formPrimary}>
           <div className={classes.formSecondary}>
             <form onSubmit={submitHanlder} className={classes.formBlog}>
-              <h2 className={classes.formHeader}>ADD EDUCATION DETAILS</h2>
+              <h2 className={classes.formHeader}>ADD EXPERIENCE DETAILS</h2>
               <Input
-                id='school'
+                id='title'
                 type='text'
                 element='input'
                 onInput={InputHandler}
-                placeholder='Please Enter your School '
+                placeholder='Please Enter your title '
                 errorText='Please Enter '
-                label='School'
+                label='title'
                 validators={[VALIDATOR_REQUIRE()]}
-                ficon={['fas', 'school']}
                 // for update we load the data from useEffect and then put here if it exists
                 initialValue={
                   singleProfileForUpdate &&
-                  singleProfileForUpdate.school &&
-                  singleProfileForUpdate.school
+                  singleProfileForUpdate.title &&
+                  singleProfileForUpdate.title
                 }
                 initialValid={
-                  singleProfileForUpdate && singleProfileForUpdate.school
+                  singleProfileForUpdate && singleProfileForUpdate.title
                     ? 'true'
                     : 'false'
                 }
               />
               <Input
-                id='degree'
+                id='company'
                 type='text'
                 element='input'
                 onInput={InputHandler}
-                placeholder='Please Enter your degree '
+                placeholder='Please Enter your company '
                 errorText='Please Enter '
-                label='degree'
+                label='company'
                 validators={[VALIDATOR_REQUIRE()]}
-                //update
+                // for update we load the data from useEffect and then put here if it exists
                 initialValue={
-                  singleProfileForUpdate && singleProfileForUpdate.degree
+                  singleProfileForUpdate &&
+                  singleProfileForUpdate.company &&
+                  singleProfileForUpdate.company
                 }
                 initialValid={
-                  singleProfileForUpdate && singleProfileForUpdate.degree
+                  singleProfileForUpdate && singleProfileForUpdate.company
                     ? 'true'
                     : 'false'
                 }
               />
               <Input
-                id='fieldofstudy'
+                id='location'
                 type='text'
                 element='input'
                 onInput={InputHandler}
                 placeholder='Please Enter your area of study'
                 errorText='Please Enter '
-                label='fieldofstudy'
+                label='location'
                 validators={[VALIDATOR_NONE()]}
                 initialValid='true'
-                //update
+                // for update we load the data from useEffect and then put here if it exists
                 initialValue={
-                  singleProfileForUpdate && singleProfileForUpdate.fieldofstudy
+                  singleProfileForUpdate &&
+                  singleProfileForUpdate.location &&
+                  singleProfileForUpdate.location
                 }
               />
               <Input
                 id='current'
-                type='text'
+                type='checkbox'
                 element='select'
                 onInput={InputHandler}
                 placeholder='Please Enter your current '
@@ -169,9 +171,11 @@ export const AddEducation = () => {
                 validators={[VALIDATOR_NONE()]}
                 initialValid='true'
                 selectData={selectData}
-                //update
+                // for update we load the data from useEffect and then put here if it exists
                 initialValue={
-                  singleProfileForUpdate && singleProfileForUpdate.current
+                  singleProfileForUpdate &&
+                  singleProfileForUpdate.current &&
+                  singleProfileForUpdate.current
                 }
               />
               <Input
@@ -183,7 +187,7 @@ export const AddEducation = () => {
                 errorText='Please Enter '
                 label='from'
                 validators={[VALIDATOR_REQUIRE()]}
-                //update
+                // for update we load the data from useEffect and then put here if it exists
                 initialValue={
                   singleProfileForUpdate &&
                   singleProfileForUpdate.from &&
@@ -205,15 +209,15 @@ export const AddEducation = () => {
                 label='to'
                 validators={[VALIDATOR_NONE()]}
                 initialValid='true'
-                disabled={
-                  state.inputs.current.value === 'true' ||
-                  state.inputs.current.value === true
-                }
-                //update and formatting date
+                // for update we load the data from useEffect and then put here if it exists
                 initialValue={
                   singleProfileForUpdate &&
                   singleProfileForUpdate.to &&
                   moment(singleProfileForUpdate.to).format('YYYY-MM-DD')
+                }
+                disabled={
+                  state.inputs.current.value === 'true' ||
+                  state.inputs.current.value === true
                 }
               />
 
@@ -228,9 +232,11 @@ export const AddEducation = () => {
                 validators={[VALIDATOR_NONE()]}
                 initialValid='true'
                 ficon='info'
-                //update
+                // for update we load the data from useEffect and then put here if it exists
                 initialValue={
-                  singleProfileForUpdate && singleProfileForUpdate.description
+                  singleProfileForUpdate &&
+                  singleProfileForUpdate.description &&
+                  singleProfileForUpdate.description
                 }
               />
               <div>

@@ -21,3 +21,11 @@ export const PROFILE_CLEAR = 'PROFILE_CLEAR';
 export const INPUT_CHANGE = 'INPUT_CHANGE';
 export const CHECK_FORM_VALIDITY = 'CHECK_FORM_VALIDITY';
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
+
+// all profiles
+export const ALL_PROFILES_SUCCESS = 'ALL_PROFILES_SUCCESS';
+export const ALL_PROFILES_FAIL = 'ALL_PROFILES_FAIL';
+
+// github repos of user
+export const GITHUB_REPOS_SUCCESS = 'GITHUB_REPOS_SUCCESS';
+export const GITHUB_REPOS_FAIL = 'GITHUB_REPOS_FAIL';

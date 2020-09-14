@@ -16,7 +16,9 @@ export const fetchUserDataFromCookie = () => {
       dispatch({
         type: SET_USER_INIT,
       });
-      const res = await axios.get('/users/token', { withCredentials: true });
+      const res = await axios.get('/api/v1/users/token', {
+        withCredentials: true,
+      });
       console.log(res);
       // if there is token we will do sucess but if there is no token we have to do fail to change the loading state from true to false
       if (res.data.data.token && res.data.data.currentUser) {
@@ -34,7 +36,7 @@ export const fetchUserDataFromCookie = () => {
       console.log(error);
       const errors = error.response.data.errors;
       if (errors) {
-        errors.forEach((el) => dispatch(setAlert(el.msg)));
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
       dispatch({
         type: SET_USER_FAIL,
@@ -50,7 +52,7 @@ export const signupUser = (name, email, password, passwordConfirm) => {
         type: AUTH_INIT,
       });
 
-      const res = await axios.post('/users/signup', data, {
+      const res = await axios.post('/api/v1/users/signup', data, {
         withCredentials: true,
       });
       console.log(res.data.token);
@@ -63,7 +65,7 @@ export const signupUser = (name, email, password, passwordConfirm) => {
     } catch (error) {
       const errors = error.response.data.errors;
       if (errors) {
-        errors.forEach((el) => dispatch(setAlert(el.msg)));
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
       dispatch({
         type: AUTH_FAIL,
@@ -81,7 +83,7 @@ export const loginUser = (email, password) => {
         type: AUTH_INIT,
       });
 
-      const res = await axios.post('/users/login', data, {
+      const res = await axios.post('/api/v1/users/login', data, {
         withCredentials: true,
       });
       console.log(res);
@@ -93,7 +95,7 @@ export const loginUser = (email, password) => {
     } catch (error) {
       const errors = error.response.data.errors;
       if (errors) {
-        errors.forEach((el) => dispatch(setAlert(el.msg)));
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
       dispatch({
         type: AUTH_FAIL,
@@ -108,7 +110,9 @@ export const logoutUser = () => {
       dispatch({
         type: AUTH_INIT,
       });
-      const res = await axios.get('/users/logout', { withCredentials: true });
+      const res = await axios.get('/api/v1/users/logout', {
+        withCredentials: true,
+      });
       console.log(res);
       dispatch({
         type: LOGOUT,
@@ -120,7 +124,7 @@ export const logoutUser = () => {
     } catch (error) {
       const errors = error.response.data.errors;
       if (errors) {
-        errors.forEach((el) => dispatch(setAlert(el.msg)));
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
     }
   };

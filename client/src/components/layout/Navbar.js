@@ -7,7 +7,6 @@ export const Navbar = () => {
     (state) => state.auth
   );
 
-  let content;
   return (
     <nav className='navbar bg-dark'>
       <h1>
@@ -16,9 +15,6 @@ export const Navbar = () => {
         </Link>
       </h1>
       <ul>
-        <li>
-          <Link to='/'>Developers</Link>
-        </li>
         {!isAuthenticated && !token && !loading && (
           <li>
             <Link to='/signup'>Signup</Link>
@@ -29,6 +25,11 @@ export const Navbar = () => {
             <Link to='/login'>Login</Link>
           </li>
         )}
+
+        <li>
+          <Link to='/profiles'>Developers</Link>
+        </li>
+
         {isAuthenticated && token && (
           <li>
             <Link to='/dashboard'>Dashboard</Link>

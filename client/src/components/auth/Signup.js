@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAlert } from '../../store/alert';

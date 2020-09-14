@@ -3,6 +3,10 @@ import {
   PROFILE_SUCCESS,
   PROFILE_FAIL,
   PROFILE_CLEAR,
+  ALL_PROFILES_SUCCESS,
+  ALL_PROFILES_FAIL,
+  GITHUB_REPOS_FAIL,
+  GITHUB_REPOS_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -39,6 +43,32 @@ const reducer = (state = initialState, action) => {
         loading: false,
       };
 
+    /// all profile
+    case ALL_PROFILES_SUCCESS:
+      return {
+        ...state,
+        profiles: payload,
+        loading: false,
+      };
+    case ALL_PROFILES_FAIL:
+      return {
+        ...state,
+        profiles: [],
+        loading: false,
+      };
+    // GITHUB INFO
+    case GITHUB_REPOS_SUCCESS:
+      return {
+        ...state,
+        repos: payload,
+        loading: false,
+      };
+    case GITHUB_REPOS_FAIL:
+      return {
+        ...state,
+        repos: [],
+        loading: false,
+      };
     default:
       return state;
   }

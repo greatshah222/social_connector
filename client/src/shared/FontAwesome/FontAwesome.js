@@ -6,6 +6,9 @@ import {
   faEdit,
   faGraduationCap,
   faSchool,
+  faUserMinus,
+  faCheck,
+  faGlobe,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebook,
@@ -27,5 +30,8 @@ library.add(
   faGraduationCap,
   faInfo,
   faBlackTie,
-  faSchool
+  faSchool,
+  faUserMinus,
+  faCheck,
+  faGlobe
 );

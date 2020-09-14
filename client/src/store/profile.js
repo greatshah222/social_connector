@@ -3,8 +3,13 @@ import {
   PROFILE_INIT,
   PROFILE_SUCCESS,
   PROFILE_FAIL,
+  ALL_PROFILES_FAIL,
+  GITHUB_REPOS_FAIL,
+  GITHUB_REPOS_SUCCESS,
+  ALL_PROFILES_SUCCESS,
 } from '../reducers/actionTypes';
 import { setAlert } from './alert';
+import { logoutUser } from './auth';
 
 // get current user profile
 
@@ -14,7 +19,9 @@ export const getCurrentUserProfile = () => {
       type: PROFILE_INIT,
     });
     try {
-      const res = await axios.get('/profile/me', { withCredentials: true });
+      const res = await axios.get('/api/v1/profile/me', {
+        withCredentials: true,
+      });
       console.log(res.data.data.data);
       dispatch({
         type: PROFILE_SUCCESS,
@@ -33,6 +40,90 @@ export const getCurrentUserProfile = () => {
   };
 };
 
+// get all profiles
+export const getAllProfile = () => {
+  return async (dispatch) => {
+    await dispatch({
+      type: PROFILE_INIT,
+    });
+    try {
+      const res = await axios.get('/api/v1/profile', { withCredentials: true });
+      console.log(res.data.data.data);
+      dispatch({
+        type: ALL_PROFILES_SUCCESS,
+        payload: res.data.data.data,
+      });
+    } catch (error) {
+      const errors = error.response.data.errors;
+      console.log(errors);
+      if (errors) {
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
+      }
+      dispatch({
+        type: ALL_PROFILES_FAIL,
+      });
+    }
+  };
+};
+
+// get PROFILE BY USER ID
+export const getProfileByUserID = (ID) => {
+  return async (dispatch) => {
+    await dispatch({
+      type: PROFILE_INIT,
+    });
+    try {
+      const res = await axios.get(`/api/v1/profile/user/${ID}`, {
+        withCredentials: true,
+      });
+      console.log(res.data.data.data);
+      dispatch({
+        type: PROFILE_SUCCESS,
+        payload: res.data.data.data,
+      });
+    } catch (error) {
+      const errors = error.response.data.errors;
+      console.log(errors);
+      if (errors) {
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
+      }
+      dispatch({
+        type: PROFILE_FAIL,
+      });
+    }
+  };
+};
+
+// GET GITHUB REPOS
+
+export const getGitHubRepos = (GITHUBUSERNAME) => {
+  return async (dispatch) => {
+    //u cannot use the profile_init cause it will change the loading state to true and every component in profile section will cause infinite rendering
+    // await dispatch({
+    //   type: PROFILE_INIT,
+    // });
+    try {
+      const res = await axios.get(`/api/v1/profile/github/${GITHUBUSERNAME}`, {
+        withCredentials: true,
+      });
+      console.log(res.data.data.data);
+      dispatch({
+        type: GITHUB_REPOS_SUCCESS,
+        payload: res.data.data.data,
+      });
+    } catch (error) {
+      const errors = error.response.data.errors;
+      console.log(errors);
+      if (errors) {
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
+      }
+      dispatch({
+        type: GITHUB_REPOS_FAIL,
+      });
+    }
+  };
+};
+
 export const createProfile = (formData, history) => {
   console.log(formData);
   return async (dispatch) => {
@@ -45,7 +136,7 @@ export const createProfile = (formData, history) => {
         'Content-Type': 'multipart/form-data',
       };
 
-      const res = await axios.post('/profile', formData, headers, {
+      const res = await axios.post('/api/v1/profile', formData, headers, {
         withCredentials: true,
       });
       console.log(res.data.data.data);
@@ -75,11 +166,11 @@ export const addEducation = (formData, history, ID) => {
     try {
       let res;
       if (ID) {
-        res = await axios.patch(`/profile/education/${ID}`, formData, {
+        res = await axios.patch(`/api/v1/profile/education/${ID}`, formData, {
           withCredentials: true,
         });
       } else {
-        res = await axios.patch('/profile/education', formData, {
+        res = await axios.patch('/api/v1/profile/education', formData, {
           withCredentials: true,
         });
       }
@@ -110,7 +201,7 @@ export const deleteEducation = (ID, history) => {
       type: PROFILE_INIT,
     });
     try {
-      const res = await axios.delete(`/profile/education/${ID}`);
+      const res = await axios.delete(`/api/v1/profile/education/${ID}`);
       console.log(res);
       dispatch({
         type: PROFILE_SUCCESS,
@@ -137,11 +228,11 @@ export const addExperience = (formData, history, ID) => {
     try {
       let res;
       if (ID) {
-        res = await axios.patch(`/profile/experience/${ID}`, formData, {
+        res = await axios.patch(`/api/v1/profile/experience/${ID}`, formData, {
           withCredentials: true,
         });
       } else {
-        res = await axios.patch('/profile/experience', formData, {
+        res = await axios.patch('/api/v1/profile/experience', formData, {
           withCredentials: true,
         });
       }
@@ -172,7 +263,7 @@ export const deleteExperience = (ID, history) => {
       type: PROFILE_INIT,
     });
     try {
-      const res = await axios.delete(`/profile/experience/${ID}`);
+      const res = await axios.delete(`/api/v1/profile/experience/${ID}`);
       console.log(res);
       dispatch({
         type: PROFILE_SUCCESS,
@@ -180,6 +271,26 @@ export const deleteExperience = (ID, history) => {
       });
       history.push('/dashboard');
       await dispatch(setAlert('Experience deleted Successfully', 'success'));
+    } catch (error) {
+      const errors = error.response.data.errors;
+      console.log(errors);
+      if (errors) {
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
+      }
+    }
+  };
+};
+
+// delete user account
+
+export const deleteAccount = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.delete('/api/v1/profile');
+      console.log(res);
+      // loggging out user will clear all the state
+      await dispatch(logoutUser());
+      await dispatch(setAlert('Account Deleted', 'error'));
     } catch (error) {
       const errors = error.response.data.errors;
       console.log(errors);

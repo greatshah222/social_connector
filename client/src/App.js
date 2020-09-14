@@ -14,9 +14,13 @@ import { fetchUserDataFromCookie } from './store/auth';
 import { Logout } from './components/auth/Logout';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { Spinner } from './shared/Spinner/Spinner';
-import { CreateProfile } from './components/Profile/CreateProfile';
-import { AddEducation } from './components/Profile/AddEducation';
-import { AddExperienc } from './components/Profile/AddExperienc';
+import { CreateProfile } from './components/ProfileForm/CreateProfile';
+
+import { Profiles } from './components/Profiles/Profiles';
+import { Profile } from './components/Profile/Profile';
+import { AddEducation } from './components/ProfileForm/AddEducation';
+import { AddExperienc } from './components/ProfileForm/AddExperienc';
+
 function App() {
   const { isAuthenticated, token } = useSelector((state) => state.auth);
   const [fetchDataProcess, setFetchDataProcess] = useState(false);
@@ -41,6 +45,13 @@ function App() {
           <Route exact path='/signup'>
             <Signup />
           </Route>
+
+          <Route exact path='/profile/:userID'>
+            <Profile />
+          </Route>
+          <Route exact path='/profiles'>
+            <Profiles />
+          </Route>
         </Switch>
       </section>
       <Redirect to='/login' />
@@ -63,6 +74,12 @@ function App() {
           <Route exact path='/create-profile'>
             <CreateProfile />
           </Route>
+          <Route exact path='/profile/:userID'>
+            <Profile />
+          </Route>
+          <Route exact path='/profiles'>
+            <Profiles />
+          </Route>
 
           <Route exact path='/add-experience/:id?'>
             <AddExperienc />{' '}
@@ -76,10 +93,12 @@ function App() {
     return <Spinner />;
   }
   return (
-    <>
-      <Navbar />
-      {route}
-    </>
+    fetchDataProcess && (
+      <>
+        <Navbar />
+        {route}
+      </>
+    )
   );
 }
 

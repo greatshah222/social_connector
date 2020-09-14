@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUserProfile } from '../../store/profile';
+import { getCurrentUserProfile, deleteAccount } from '../../store/profile';
 import { Spinner } from '../../shared/Spinner/Spinner';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,15 +8,25 @@ import { Link } from 'react-router-dom';
 import { DashboardDetails } from './DashboardDetails';
 import { Experience } from './Experience';
 import { Education } from './Education';
+import { Modal } from '../../shared/Modal/Modal';
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { profile, loading } = useSelector((state) => state.profile);
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getCurrentUserProfile());
   }, [dispatch]);
+
+  const confirmModalHandler = () => {
+    setShowConfirmModal((prevState) => !prevState);
+  };
+
+  const deleteAccountHandler = async () => {
+    await dispatch(deleteAccount());
+  };
 
   return loading && !profile ? (
     <Spinner />
@@ -30,7 +40,32 @@ export const Dashboard = () => {
       </p>
       {profile ? (
         <>
-          {' '}
+          <Modal
+            show={showConfirmModal}
+            onCancel={confirmModalHandler}
+            header='ARE YOUR SURE ???'
+            footer={
+              <>
+                <button
+                  className='btn btn-primary'
+                  onClick={confirmModalHandler}
+                >
+                  Cancel
+                </button>
+                <button
+                  className='btn btn-danger'
+                  onClick={deleteAccountHandler}
+                >
+                  Confirm
+                </button>
+              </>
+            }
+          >
+            <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
+              Do you want to proceed and delete your Account permanently? Please
+              note that this action cannot be undone !!
+            </p>
+          </Modal>{' '}
           <div
             style={{
               display: 'flex',
@@ -41,6 +76,15 @@ export const Dashboard = () => {
             <DashboardDetails />
             <Experience experience={profile.experience} />
             <Education education={profile.education} />
+            <div className='my-2'>
+              <button className='btn btn-danger' onClick={confirmModalHandler}>
+                <FontAwesomeIcon
+                  icon='user-minus'
+                  style={{ marginRight: '10px' }}
+                />
+                Delete my account
+              </button>
+            </div>
           </div>
         </>
       ) : (
