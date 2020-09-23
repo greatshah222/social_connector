@@ -13,6 +13,7 @@ import {
   faTimes,
   faPlus,
   faLocationArrow,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebook,
@@ -41,5 +42,6 @@ library.add(
   faHeart,
   faTimes,
   faPlus,
-  faLocationArrow
+  faLocationArrow,
+  faTrash
 );

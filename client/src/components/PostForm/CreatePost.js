@@ -8,7 +8,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getPostByPostId, addNewPost } from '../../store/post';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export const CreatePost = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -72,7 +72,6 @@ export const CreatePost = () => {
     !Loading &&
     !loading && (
       <>
-        <FontAwesomeIcon />
         <div className={classes.formPrimary}>
           <div className={classes.formSecondary}>
             <form onSubmit={submitHanlder} className={classes.formBlog}>

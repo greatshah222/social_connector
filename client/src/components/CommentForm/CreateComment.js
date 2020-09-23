@@ -7,7 +7,6 @@ import classes from '../../shared/Inputs/Input.module.css';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getSingleComment, addNewComment } from '../../store/comment';
 export const CreateComment = ({ commentId, postId }) => {
   const dispatch = useDispatch();
@@ -49,7 +48,6 @@ export const CreateComment = ({ commentId, postId }) => {
   return (
     !loading && (
       <>
-        <FontAwesomeIcon />
         <div className={classes.formPrimary}>
           <div className={classes.formSecondary}>
             <form onSubmit={submitHanlder} className={classes.formBlog}>

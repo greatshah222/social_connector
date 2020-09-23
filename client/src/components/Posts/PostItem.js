@@ -44,19 +44,18 @@ export const PostItem = ({
         </Link>
         {user._id === auth.user._id && (
           <>
-            <button
-              onClick={deletePostHandler}
-              type='button'
+            <Link
+              to={`/create-post/location/${_id}`}
               className='btn btn-success'
             >
               <FontAwesomeIcon icon={['fas', 'location-arrow']} /> Add Location
-            </button>
+            </Link>
             <button
               onClick={deletePostHandler}
               type='button'
               className='btn btn-danger'
             >
-              <FontAwesomeIcon icon='times' />
+              <FontAwesomeIcon icon='trash' />
             </button>
             <Link
               to={`/create-post/${_id}`}

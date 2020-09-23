@@ -11,6 +11,7 @@ import {
   ADD_COMMENT_SUCCESS,
   FETCH_SINGLE_COMMENT_FAILED,
   FETCH_SINGLE_COMMENT_SUCCESS,
+  ADD_LOCATION_SUCCESS,
 } from './actionTypes';
 const initialState = {
   posts: [],
@@ -102,9 +103,25 @@ const reducer = (state = initialState, action) => {
         posts: [...state.posts, payload],
       };
 
+    // ADD LOCATION ON POST
+    // we really dont have to do this cause we are rediecting the user to /posts which on useEffect will fetch all the posts again
+    case ADD_LOCATION_SUCCESS:
+      const updatedPostAfterLocation = [...state.posts];
+      const singlePostLocatin = updatedPostAfterLocation.find(
+        (el) => el._id === id
+      );
+      const indexLocation = updatedPostAfterLocation.indexOf(singlePostLocatin);
+      singlePostLocatin.locations = payload;
+      updatedPostAfterLocation[indexLocation] = singlePostLocatin;
+      return {
+        ...state,
+        posts: updatedPostAfterLocation,
+      };
+
     case UPDATE_LIKE:
       const updatedPostAfterlike = [...state.posts];
       const singlePost = updatedPostAfterlike.find((el) => el._id === id);
+      // we cannot simply change the response we get from the backend cause there we have comments which is not populated
       const index = updatedPostAfterlike.indexOf(singlePost);
       updatedPostAfterlike[index] = payload;
 

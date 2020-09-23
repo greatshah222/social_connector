@@ -23,6 +23,7 @@ import { AddExperienc } from './components/ProfileForm/AddExperienc';
 import { Posts } from './components/Posts/Posts';
 import { CreatePost } from './components/PostForm/CreatePost';
 import { Post } from './components/post/Post';
+import { AddLocation } from './components/PostForm/AddLocation';
 
 function App() {
   const { isAuthenticated, token } = useSelector((state) => state.auth);
@@ -89,6 +90,9 @@ function App() {
           </Route>
           <Route exact path='/create-post/:id?'>
             <CreatePost />
+          </Route>
+          <Route exact path='/create-post/location/:id'>
+            <AddLocation />
           </Route>
           <Route exact path='/posts/:id'>
             <Post />{' '}

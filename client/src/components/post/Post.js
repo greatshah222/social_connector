@@ -5,6 +5,7 @@ import { getPostByPostId } from '../../store/post';
 import Moment from 'react-moment';
 import { CreateComment } from '../CommentForm/CreateComment';
 import { CommentItem } from '../Comment/CommentItem';
+import { Map } from './Map';
 
 export const Post = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,9 @@ export const Post = () => {
 
     // even if there is not any postId we have to change the loading state to false
   }, [dispatch, postId]);
-  console.log(post);
+  if (post) {
+    console.log(post.locations);
+  }
   return (
     !loading &&
     post && (
@@ -36,6 +39,15 @@ export const Post = () => {
               Posted on <Moment format='YYYY/MM/D'>{post.created_At}</Moment>
             </p>
           </div>
+        </div>
+        <div
+          style={{
+            width: '100%',
+            padding: ' 0px 20px',
+            marginBottom: '20px',
+          }}
+        >
+          {post.locations && <Map locations={post.locations} />}
         </div>
         <CreateComment postId={post._id} />
 

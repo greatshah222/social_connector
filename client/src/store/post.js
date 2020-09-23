@@ -7,6 +7,7 @@ import {
   CHANGE_LOADING,
   SINGLE_POST_FETCH_SUCCESS,
   ADD_NEW_POST_SUCCESS,
+  ADD_LOCATION_SUCCESS,
 } from '../reducers/actionTypes';
 import { setAlert } from './alert';
 
@@ -132,6 +133,48 @@ export const deleteSinglePost = (ID) => {
       const errors = error.response.data.errors;
       console.log(errors);
       await dispatch({ type: CHANGE_LOADING });
+      if (errors) {
+        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
+      }
+    }
+  };
+};
+
+// add new location
+export const addNewLocation = (formData, history, ID) => {
+  console.log(formData);
+  return async (dispatch) => {
+    // for changing loading state
+    await dispatch({
+      type: POST_INIT,
+    });
+    try {
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+      };
+
+      const res = await axios.patch(
+        `/api/v1/posts/location/${ID}`,
+        formData,
+        headers,
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(res.data.data.data);
+      // we are sending only location to our reducer cause if wee send the whole data we have to populate the comments again
+      dispatch({
+        type: ADD_LOCATION_SUCCESS,
+        payload: res.data.data.data.locations,
+        id: res.data.data.data._id,
+      });
+      history.push('/posts');
+      await dispatch(setAlert('Location added Successfully', 'success'));
+    } catch (error) {
+      const errors = error.response.data.errors;
+      await dispatch({ type: CHANGE_LOADING });
+
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
