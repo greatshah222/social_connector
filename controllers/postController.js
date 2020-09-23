@@ -9,7 +9,7 @@ const validationError = (req, res) => {
   }
 };
 exports.createNewPost = async (req, res) => {
-  validationError(req, res);
+  await validationError(req, res);
 
   const { startAddress, startDescription, description } = req.body;
   let coordinates;
@@ -31,7 +31,6 @@ exports.createNewPost = async (req, res) => {
     startLocation,
   };
   const post = await Post.create(newPost);
-  console.log(post);
   res.status(201).json({
     status: 'success',
     data: {
@@ -39,6 +38,42 @@ exports.createNewPost = async (req, res) => {
     },
   });
 };
+// update post
+
+exports.updatePostDetail = async (req, res) => {
+  await validationError(req, res);
+
+  const { startAddress, startDescription, description } = req.body;
+  let coordinates;
+  try {
+    coordinates = await convertAddresstoCoordinates(startAddress);
+  } catch (error) {
+    return res.status(400).json({
+      msg: 'Please provide the valid address',
+    });
+  }
+
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(400).json({
+      msg: 'No documnent found',
+    });
+  }
+  if (coordinates) post.startLocation.coordinates = coordinates;
+
+  if (startAddress) post.startLocation.startAddress = startAddress;
+  if (startDescription) post.startLocation.startDescription = startDescription;
+  if (description) post.description = description;
+  await post.save();
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      data: post,
+    },
+  });
+};
+
 exports.getAllPosts = async (req, res) => {
   // most recent first
   const posts = await Post.find()
@@ -55,7 +90,7 @@ exports.getAllPosts = async (req, res) => {
 };
 exports.getPostByPostID = async (req, res) => {
   // most recent first
-  const post = await Post.findById(req.params.id);
+  let post = await Post.findById(req.params.id).populate({ path: 'comments' });
   if (!post) {
     return res.status(404).json({
       msg: 'No post found',
@@ -72,12 +107,13 @@ exports.getPostByPostID = async (req, res) => {
 exports.deletePost = async (req, res) => {
   // most recent first
   const post = await Post.findById(req.params.id);
+
   if (!post) {
     return res.status(404).json({
       msg: 'No post found',
     });
   }
-  if (post.user.toString() != req.user._id) {
+  if (post.user._id.toString() != req.user._id) {
     return res.status(401).json({
       msg: 'Not Authorized',
     });

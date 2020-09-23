@@ -35,7 +35,7 @@ export const Experience = ({ experience }) => {
         <Link className='btn btn-primary' to={`/add-experience/${el._id}`}>
           Edit
         </Link>
-      </td>{' '}
+      </td>
     </tr>
   ));
   return (

@@ -10,6 +10,7 @@ const {
   deletePost,
   likeUpdateForPost,
   addMoreLocations,
+  updatePostDetail,
 } = require('../controllers/postController');
 
 const router = express.Router();
@@ -25,6 +26,16 @@ router.post(
     check('startAddress', ' Start Address is Required').not().isEmpty(),
   ],
   createNewPost
+);
+router.patch(
+  '/:id',
+  [
+    protect,
+    check('description', 'Description is Required').not().isEmpty(),
+    check('startDescription', ' Start Description is Required').not().isEmpty(),
+    check('startAddress', ' Start Address is Required').not().isEmpty(),
+  ],
+  updatePostDetail
 );
 router.get('/', protect, getAllPosts);
 router.get('/:id', protect, getPostByPostID);

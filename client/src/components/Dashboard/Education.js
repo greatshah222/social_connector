@@ -47,7 +47,7 @@ export const Education = ({ education }) => {
         >
           Delete
         </button>
-      </td>{' '}
+      </td>
     </tr>
   ));
   return (

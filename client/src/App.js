@@ -20,6 +20,9 @@ import { Profiles } from './components/Profiles/Profiles';
 import { Profile } from './components/Profile/Profile';
 import { AddEducation } from './components/ProfileForm/AddEducation';
 import { AddExperienc } from './components/ProfileForm/AddExperienc';
+import { Posts } from './components/Posts/Posts';
+import { CreatePost } from './components/PostForm/CreatePost';
+import { Post } from './components/post/Post';
 
 function App() {
   const { isAuthenticated, token } = useSelector((state) => state.auth);
@@ -83,6 +86,15 @@ function App() {
 
           <Route exact path='/add-experience/:id?'>
             <AddExperienc />{' '}
+          </Route>
+          <Route exact path='/create-post/:id?'>
+            <CreatePost />
+          </Route>
+          <Route exact path='/posts/:id'>
+            <Post />{' '}
+          </Route>
+          <Route exact path='/posts'>
+            <Posts />{' '}
           </Route>
           <Redirect to='/dashboard' />
         </section>

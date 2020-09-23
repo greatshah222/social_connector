@@ -17,11 +17,19 @@ exports.createComment = async (req, res) => {
     user: req.user._id,
     post: req.params.post_id,
   });
+  // here instead of directly sennding the comment we have to first populate the comment cause if we we directly send the comment the user information and the post information are not poluated yet and we need them to display the info
+  const postComment = await Post.findById(req.params.post_id).populate({
+    path: 'comments',
+  });
+
+  const singleCommentWithPolulateInfo = await postComment.comments.find(
+    (el) => el._id.toString() == comment._id
+  );
 
   res.status(201).json({
     status: 'success',
     data: {
-      data: comment,
+      data: singleCommentWithPolulateInfo,
     },
   });
 };
@@ -60,6 +68,21 @@ exports.updateSingleComment = async (req, res) => {
   }
   comment.comment = req.body.comment;
   await comment.save();
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: comment,
+    },
+  });
+};
+
+exports.getSingleComment = async (req, res) => {
+  const comment = await Comment.findById(req.params.comment_id);
+  if (!comment) {
+    return res.status(400).json({
+      msg: 'No document found',
+    });
+  }
   res.status(200).json({
     status: 'success',
     data: {

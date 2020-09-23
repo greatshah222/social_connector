@@ -9,6 +9,10 @@ import {
   faUserMinus,
   faCheck,
   faGlobe,
+  faHeart,
+  faTimes,
+  faPlus,
+  faLocationArrow,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebook,
@@ -33,5 +37,9 @@ library.add(
   faSchool,
   faUserMinus,
   faCheck,
-  faGlobe
+  faGlobe,
+  faHeart,
+  faTimes,
+  faPlus,
+  faLocationArrow
 );

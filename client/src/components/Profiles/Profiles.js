@@ -22,14 +22,14 @@ export const Profiles = () => {
           <p className='lead'>
             <FontAwesomeIcon icon='user' />
             Browse and Connect with developers
-            <div className='profiles'>
-              {profiles.length > 0 ? (
-                profiles.map((el) => <ProfileItem key={el._id} profile={el} />)
-              ) : (
-                <h4>No profile found</h4>
-              )}
-            </div>
           </p>
+          <div className='profiles'>
+            {profiles.length > 0 ? (
+              profiles.map((el) => <ProfileItem key={el._id} profile={el} />)
+            ) : (
+              <h4>No profile found</h4>
+            )}
+          </div>
         </>
       )}
     </>

@@ -132,6 +132,8 @@ exports.deleteUserOwnProfile = async (req, res) => {
   await Post.deleteMany({ user: req.user._id });
   // remove profile
   await Profile.findOneAndDelete({ user: req.user._id });
+  // DELETE ALL THE COMMENT todo
+
   // finally delete user
   await User.findByIdAndDelete({ _id: req.user._id });
 

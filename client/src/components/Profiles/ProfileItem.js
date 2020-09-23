@@ -7,7 +7,7 @@ export const ProfileItem = ({ profile }) => {
     user,
     // social,
     skills,
-    _id,
+
     company,
     // website,
     location,
@@ -33,14 +33,16 @@ export const ProfileItem = ({ profile }) => {
           View Profile
         </Link>
       </div>
-      <ul>
-        {skills.map((el, i) => (
-          <li key={i} className='text-primary'>
-            <FontAwesomeIcon icon='check' />
-            {el}
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul>
+          {skills.map((el, i) => (
+            <li key={i} className='text-primary'>
+              <FontAwesomeIcon icon='check' />
+              {el}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
