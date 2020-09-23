@@ -7,12 +7,13 @@ import {
   CHANGE_LOADING,
   ADD_COMMENT_SUCCESS,
   FETCH_SINGLE_COMMENT_FAILED,
+  EDIT_COMMENT_SUCCESS,
 } from '../reducers/actionTypes';
 
 import { setAlert } from './alert';
 import { REMOVE_COMMENT_SUCCESS } from '../reducers/actionTypes';
 export const addNewComment = (formData, postID, commentID) => {
-  console.log(formData);
+  console.log(commentID, postID);
   return async (dispatch) => {
     // for changing loading state
     await dispatch({
@@ -33,6 +34,15 @@ export const addNewComment = (formData, postID, commentID) => {
             withCredentials: true,
           }
         );
+        console.log(res.data.data.data);
+
+        await dispatch({
+          type: EDIT_COMMENT_SUCCESS,
+          payload: res.data.data.data,
+          postID,
+          commentID,
+        });
+        await dispatch(setAlert('Comment edited Successfully', 'success'));
       } else {
         res = await axios.post(
           `/api/v1/posts/${postID}/comments/`,
@@ -42,15 +52,15 @@ export const addNewComment = (formData, postID, commentID) => {
             withCredentials: true,
           }
         );
-      }
+        console.log(res.data.data.data);
 
-      console.log(res.data.data.data);
-      await dispatch({
-        type: ADD_COMMENT_SUCCESS,
-        payload: res.data.data.data,
-        postID,
-      });
-      await dispatch(setAlert('Comment created Successfully', 'success'));
+        await dispatch({
+          type: ADD_COMMENT_SUCCESS,
+          payload: res.data.data.data,
+          postID,
+        });
+        await dispatch(setAlert('Comment created Successfully', 'success'));
+      }
     } catch (error) {
       const errors = error.response.data.errors;
       await dispatch({ type: CHANGE_LOADING });

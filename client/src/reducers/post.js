@@ -12,6 +12,7 @@ import {
   FETCH_SINGLE_COMMENT_FAILED,
   FETCH_SINGLE_COMMENT_SUCCESS,
   ADD_LOCATION_SUCCESS,
+  EDIT_COMMENT_SUCCESS,
 } from './actionTypes';
 const initialState = {
   posts: [],
@@ -79,13 +80,28 @@ const reducer = (state = initialState, action) => {
         post: { ...state.post, comments: [payload, ...state.post.comments] },
       };
     // edit not completed yet todo
-    // case EDIT_COMMENT_SUCCESS:
-    //   let comment;
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     post: { ...state.post, comment: [...state.post.comments, payload] },
-    //   };
+    case EDIT_COMMENT_SUCCESS:
+      // index of single post
+      const postEdit = { ...state.post };
+      console.log(postEdit);
+
+      const singleComment = postEdit.comments.find(
+        (el) => el._id === action.commentID
+      );
+      console.log(singleComment);
+      const singleCommentindex = postEdit.comments.indexOf(singleComment);
+      console.log(singleCommentindex);
+
+      singleComment.comment = payload.comment;
+      console.log(singleComment);
+      postEdit.comments[singleCommentindex] = singleComment;
+      console.log(postEdit);
+
+      return {
+        ...state,
+        loading: false,
+        post: postEdit,
+      };
     case REMOVE_COMMENT_SUCCESS:
       return {
         ...state,
