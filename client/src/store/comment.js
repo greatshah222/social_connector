@@ -13,7 +13,7 @@ import {
 import { setAlert } from './alert';
 import { REMOVE_COMMENT_SUCCESS } from '../reducers/actionTypes';
 export const addNewComment = (formData, postID, commentID) => {
-  console.log(commentID, postID);
+  // console.log(commentID, postID);
   return async (dispatch) => {
     // for changing loading state
     await dispatch({
@@ -34,7 +34,7 @@ export const addNewComment = (formData, postID, commentID) => {
             withCredentials: true,
           }
         );
-        console.log(res.data.data.data);
+        // console.log(res.data.data.data);
 
         await dispatch({
           type: EDIT_COMMENT_SUCCESS,
@@ -52,7 +52,7 @@ export const addNewComment = (formData, postID, commentID) => {
             withCredentials: true,
           }
         );
-        console.log(res.data.data.data);
+        // console.log(res.data.data.data);
 
         await dispatch({
           type: ADD_COMMENT_SUCCESS,
@@ -65,7 +65,7 @@ export const addNewComment = (formData, postID, commentID) => {
       const errors = error.response.data.errors;
       await dispatch({ type: CHANGE_LOADING });
 
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -89,7 +89,7 @@ export const getSingleComment = (postID, commentID) => {
         }
       );
 
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       dispatch({
         type: FETCH_SINGLE_COMMENT_SUCCESS,
         payload: res.data.data.data,
@@ -101,7 +101,7 @@ export const getSingleComment = (postID, commentID) => {
         type: FETCH_SINGLE_COMMENT_FAILED,
       });
 
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -117,21 +117,21 @@ export const deleteSingleComment = (postID, commentID) => {
       type: POST_INIT,
     });
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `/api/v1/posts/${postID}/comments/${commentID}`,
 
         {
           withCredentials: true,
         }
       );
-      console.log(res);
+      // console.log(res);
       dispatch({
         type: REMOVE_COMMENT_SUCCESS,
         id: commentID,
       });
       await dispatch(setAlert('Comment deleted Successfully', 'success'));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
 
       const errors = error.response.data.errors;
       await dispatch({ type: CHANGE_LOADING });

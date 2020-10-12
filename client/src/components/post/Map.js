@@ -3,10 +3,10 @@ import mapboxgl from 'mapbox-gl';
 
 export const Map = ({ locations }) => {
   const mapRef = useRef();
-  console.log(locations);
+  // console.log(locations);
   useEffect(() => {
     if (locations.length > 0) {
-      console.log(locations);
+      // console.log(locations);
       mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
 
       var map = new mapboxgl.Map({

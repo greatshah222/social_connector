@@ -83,19 +83,19 @@ const reducer = (state = initialState, action) => {
     case EDIT_COMMENT_SUCCESS:
       // index of single post
       const postEdit = { ...state.post };
-      console.log(postEdit);
+      // console.log(postEdit);
 
       const singleComment = postEdit.comments.find(
         (el) => el._id === action.commentID
       );
-      console.log(singleComment);
+      // console.log(singleComment);
       const singleCommentindex = postEdit.comments.indexOf(singleComment);
-      console.log(singleCommentindex);
+      // console.log(singleCommentindex);
 
       singleComment.comment = payload.comment;
-      console.log(singleComment);
+      // console.log(singleComment);
       postEdit.comments[singleCommentindex] = singleComment;
-      console.log(postEdit);
+      // console.log(postEdit);
 
       return {
         ...state,

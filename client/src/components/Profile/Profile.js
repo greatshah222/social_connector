@@ -17,7 +17,7 @@ export const Profile = () => {
   useEffect(() => {
     dispatch(getProfileByUserID(userID));
   }, [dispatch, userID]);
-  console.log(profile);
+  // console.log(profile);
   return (
     <>
       {!profile || loading ? (

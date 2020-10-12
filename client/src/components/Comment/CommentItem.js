@@ -5,20 +5,21 @@ import Moment from 'react-moment';
 import { deleteSingleComment } from '../../store/comment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from '../../shared/Modal/Modal';
-import classes from '../../shared/Inputs/Input.module.css';
+// import classes from '../../shared/Inputs/Input.module.css';
 import { CreateComment } from '../CommentForm/CreateComment';
 
 export const CommentItem = ({ postId, comment }) => {
   const [showCommentEditForm, setShowCommentEditForm] = useState(false);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  console.log(comment);
+  // console.log(comment);
   const deleteCommentHandler = async () => {
     await dispatch(deleteSingleComment(postId, comment._id));
   };
   const commentModalHandler = () => {
     setShowCommentEditForm((prevState) => !prevState);
   };
+  const userName = user.name;
   return (
     comment && (
       <>
@@ -42,7 +43,9 @@ export const CommentItem = ({ postId, comment }) => {
                 src={comment.user.avatar}
                 alt={comment.user.name}
               />
-              <h4>{comment.user.name}</h4>
+              <h4>
+                {comment.user.name === userName ? 'You' : comment.user.name}
+              </h4>
             </Link>
           </div>
           <div>
@@ -59,7 +62,10 @@ export const CommentItem = ({ postId, comment }) => {
                   {' '}
                   <FontAwesomeIcon icon='trash' />
                 </button>
-                <button onClick={commentModalHandler}>
+                <button
+                  onClick={commentModalHandler}
+                  className='btn btn-primary'
+                >
                   {' '}
                   <FontAwesomeIcon icon='edit' />
                 </button>

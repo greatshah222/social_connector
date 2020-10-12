@@ -19,7 +19,7 @@ export const fetchUserDataFromCookie = () => {
       const res = await axios.get('/api/v1/users/token', {
         withCredentials: true,
       });
-      console.log(res);
+      // console.log(res);
       // if there is token we will do sucess but if there is no token we have to do fail to change the loading state from true to false
       if (res.data.data.token && res.data.data.currentUser) {
         dispatch({
@@ -33,7 +33,7 @@ export const fetchUserDataFromCookie = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       const errors = error.response.data.errors;
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
@@ -55,8 +55,8 @@ export const signupUser = (name, email, password, passwordConfirm) => {
       const res = await axios.post('/api/v1/users/signup', data, {
         withCredentials: true,
       });
-      console.log(res.data.token);
-      console.log(res.data.data.user);
+      // console.log(res.data.token);
+      // console.log(res.data.data.user);
       dispatch({
         type: AUTH_SUCCESS,
         token: res.data.token,
@@ -86,7 +86,6 @@ export const loginUser = (email, password) => {
       const res = await axios.post('/api/v1/users/login', data, {
         withCredentials: true,
       });
-      console.log(res);
       dispatch({
         type: AUTH_SUCCESS,
         token: res.data.token,
@@ -94,6 +93,7 @@ export const loginUser = (email, password) => {
       });
     } catch (error) {
       const errors = error.response.data.errors;
+
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -110,10 +110,10 @@ export const logoutUser = () => {
       dispatch({
         type: AUTH_INIT,
       });
-      const res = await axios.get('/api/v1/users/logout', {
+      await axios.get('/api/v1/users/logout', {
         withCredentials: true,
       });
-      console.log(res);
+      // console.log(res);
       dispatch({
         type: LOGOUT,
       });

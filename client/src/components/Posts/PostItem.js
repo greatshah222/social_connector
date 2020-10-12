@@ -17,13 +17,13 @@ export const PostItem = ({
     dispatch(deleteSinglePost(_id));
   };
   const likedByUserAlready = likes.some((el) => auth.user._id === el.user);
-  console.log(likedByUserAlready);
+  const userName = auth.user.name;
   return (
     <div className='post bg-white p-1 my-1'>
       <div>
         <Link to={`/profile/${user._id}`}>
           <img className='round-img' src={user.avatar} alt='' />
-          <h4>{user.name}</h4>
+          <h4>{user.name === userName ? 'You' : user.name}</h4>
         </Link>
       </div>
       <div>

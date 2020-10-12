@@ -22,17 +22,17 @@ export const getCurrentUserProfile = () => {
       const res = await axios.get('/api/v1/profile/me', {
         withCredentials: true,
       });
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       dispatch({
         type: PROFILE_SUCCESS,
         payload: res.data.data.data,
       });
     } catch (error) {
-      const errors = error.response.data.errors;
-      console.log(errors);
-      if (errors) {
-        errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
-      }
+      // const errors = error.response.data.errors;
+      // console.log(errors);
+      // if (errors) {
+      //   errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
+      // }
       dispatch({
         type: PROFILE_FAIL,
       });
@@ -48,14 +48,14 @@ export const getAllProfile = () => {
     });
     try {
       const res = await axios.get('/api/v1/profile', { withCredentials: true });
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       dispatch({
         type: ALL_PROFILES_SUCCESS,
         payload: res.data.data.data,
       });
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -76,14 +76,14 @@ export const getProfileByUserID = (ID) => {
       const res = await axios.get(`/api/v1/profile/user/${ID}`, {
         withCredentials: true,
       });
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       dispatch({
         type: PROFILE_SUCCESS,
         payload: res.data.data.data,
       });
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -106,14 +106,14 @@ export const getGitHubRepos = (GITHUBUSERNAME) => {
       const res = await axios.get(`/api/v1/profile/github/${GITHUBUSERNAME}`, {
         withCredentials: true,
       });
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       dispatch({
         type: GITHUB_REPOS_SUCCESS,
         payload: res.data.data.data,
       });
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -125,7 +125,7 @@ export const getGitHubRepos = (GITHUBUSERNAME) => {
 };
 
 export const createProfile = (formData, history) => {
-  console.log(formData);
+  // console.log(formData);
   return async (dispatch) => {
     // for changing loading state
     await dispatch({
@@ -139,7 +139,7 @@ export const createProfile = (formData, history) => {
       const res = await axios.post('/api/v1/profile', formData, headers, {
         withCredentials: true,
       });
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       dispatch({
         type: PROFILE_SUCCESS,
         payload: res.data.data.data,
@@ -148,7 +148,7 @@ export const createProfile = (formData, history) => {
       await dispatch(setAlert('Profile updated Successfully', 'success'));
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -174,7 +174,7 @@ export const addEducation = (formData, history, ID) => {
           withCredentials: true,
         });
       }
-      console.log(res);
+      // console.log(res);
       dispatch({
         type: PROFILE_SUCCESS,
         payload: res.data.data.data,
@@ -186,9 +186,9 @@ export const addEducation = (formData, history, ID) => {
         await dispatch(setAlert('Education edited Successfully', 'success'));
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -202,7 +202,7 @@ export const deleteEducation = (ID, history) => {
     });
     try {
       const res = await axios.delete(`/api/v1/profile/education/${ID}`);
-      console.log(res);
+      // console.log(res);
       dispatch({
         type: PROFILE_SUCCESS,
         payload: res.data.data.data,
@@ -211,7 +211,7 @@ export const deleteEducation = (ID, history) => {
       await dispatch(setAlert('Education deleted Successfully', 'success'));
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -220,7 +220,7 @@ export const deleteEducation = (ID, history) => {
 };
 
 export const addExperience = (formData, history, ID) => {
-  console.log(formData);
+  // console.log(formData);
   return async (dispatch) => {
     await dispatch({
       type: PROFILE_INIT,
@@ -237,7 +237,7 @@ export const addExperience = (formData, history, ID) => {
         });
       }
 
-      console.log(res);
+      // console.log(res);
       dispatch({
         type: PROFILE_SUCCESS,
         payload: res.data.data.data,
@@ -250,7 +250,7 @@ export const addExperience = (formData, history, ID) => {
       }
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -264,7 +264,7 @@ export const deleteExperience = (ID, history) => {
     });
     try {
       const res = await axios.delete(`/api/v1/profile/experience/${ID}`);
-      console.log(res);
+      // console.log(res);
       dispatch({
         type: PROFILE_SUCCESS,
         payload: res.data.data.data,
@@ -273,7 +273,7 @@ export const deleteExperience = (ID, history) => {
       await dispatch(setAlert('Experience deleted Successfully', 'success'));
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -286,14 +286,14 @@ export const deleteExperience = (ID, history) => {
 export const deleteAccount = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.delete('/api/v1/profile');
-      console.log(res);
+      await axios.delete('/api/v1/profile');
+      // console.log(res);
       // loggging out user will clear all the state
       await dispatch(logoutUser());
       await dispatch(setAlert('Account Deleted', 'error'));
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }

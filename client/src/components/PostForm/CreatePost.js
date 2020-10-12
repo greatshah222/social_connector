@@ -33,9 +33,9 @@ export const CreatePost = () => {
     },
     false
   );
-  console.log(post);
-  console.log(postId);
-  console.log(post && post.startLocation.startAddress);
+  // console.log(post);
+  // console.log(postId);
+  // console.log(post && post.startLocation.startAddress);
 
   useEffect(() => {
     if (postId) {
@@ -47,7 +47,7 @@ export const CreatePost = () => {
 
     // even if there is not any postId we have to change the loading state to false
   }, [dispatch, postId]);
-  console.log(state);
+  // console.log(state);
   const submitHanlder = async (e) => {
     // state has two field 1) inputs 2) isValid
 

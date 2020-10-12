@@ -31,7 +31,7 @@ export const AddLocation = () => {
     },
     false
   );
-  console.log(postId);
+  // console.log(postId);
 
   const submitHanlder = async (e) => {
     e.preventDefault();

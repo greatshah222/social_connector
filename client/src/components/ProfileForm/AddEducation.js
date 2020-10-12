@@ -29,11 +29,11 @@ export const AddEducation = () => {
     }
     setLoading(false);
   }, [educationId, profile]);
-  if (singleProfileForUpdate) {
-    const d = moment(singleProfileForUpdate.to).format('YYYY-MM-DD');
+  // if (singleProfileForUpdate) {
+  //   const d = moment(singleProfileForUpdate.to).format('YYYY-MM-DD');
 
-    console.log(d);
-  }
+  //   console.log(d);
+  // }
   const selectData = ['true', 'false'];
   const [state, InputHandler] = useForm(
     {
@@ -68,7 +68,7 @@ export const AddEducation = () => {
     },
     false
   );
-  console.log(state);
+  // console.log(state);
 
   const submitHanlder = async (e) => {
     e.preventDefault();

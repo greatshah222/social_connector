@@ -58,7 +58,7 @@ function App() {
           </Route>
         </Switch>
       </section>
-      <Redirect to='/login' />
+      {/* <Redirect to='/login' /> */}
     </>
   );
   if (isAuthenticated && token) {

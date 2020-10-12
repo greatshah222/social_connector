@@ -7,7 +7,7 @@ export const ProfileAbout = ({ profile }) => {
     skills,
     user: { name },
   } = profile;
-  console.log(profile);
+  // console.log(profile);
   return (
     <div className='profile-about bg-light p-2'>
       {

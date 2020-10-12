@@ -2,6 +2,7 @@ const Profile = require('../modals/profileModal');
 const { validationResult } = require('express-validator');
 const User = require('../modals/userModal');
 const Post = require('../modals/postModal');
+const Comment = require('../modals/commentModal');
 const axios = require('axios');
 
 exports.getOwnProfileDetail = async (req, res) => {
@@ -130,9 +131,13 @@ exports.getProfileByUserID = async (req, res) => {
 exports.deleteUserOwnProfile = async (req, res) => {
   // removes post
   await Post.deleteMany({ user: req.user._id });
+
   // remove profile
   await Profile.findOneAndDelete({ user: req.user._id });
   // DELETE ALL THE COMMENT todo
+  await Comment.deleteMany({
+    user: req.user._id,
+  });
 
   // finally delete user
   await User.findByIdAndDelete({ _id: req.user._id });

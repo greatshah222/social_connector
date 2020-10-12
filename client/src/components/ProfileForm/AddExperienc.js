@@ -61,7 +61,7 @@ export const AddExperienc = () => {
     },
     false
   );
-  console.log(state);
+  // console.log(state);
   const selectData = ['true', 'false'];
   const submitHanlder = async (e) => {
     e.preventDefault();
@@ -93,7 +93,7 @@ export const AddExperienc = () => {
     };
     await dispatch(addExperience(formData, history, experienceId));
   };
-  console.log(state);
+  // console.log(state);
   return (
     !loading && (
       <>

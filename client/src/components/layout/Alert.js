@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const Alert = () => {
   const alerts = useSelector((state) => state.alert);
-  console.log(alerts);
+  // console.log(alerts);
   let allAlerts = [];
   if (alerts !== null && alerts.length > 0) {
     allAlerts = alerts.map((el) => el);

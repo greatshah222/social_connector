@@ -19,11 +19,11 @@ export const getAllPosts = () => {
         type: POST_INIT,
       });
       const res = await axios.get('/api/v1/posts');
-      console.log(res);
+      // console.log(res);
       await dispatch({ type: POST_SUCCESS, payload: res.data.data.data });
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -38,7 +38,7 @@ export const getPostByPostId = (ID) => {
         type: POST_INIT,
       });
       const res = await axios.get(`/api/v1/posts/${ID}`);
-      console.log(res);
+      // console.log(res);
       await dispatch({
         type: SINGLE_POST_FETCH_SUCCESS,
         payload: res.data.data.data,
@@ -47,7 +47,7 @@ export const getPostByPostId = (ID) => {
       const errors = error.response.data.errors;
       await dispatch({ type: CHANGE_LOADING });
 
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -56,7 +56,7 @@ export const getPostByPostId = (ID) => {
 };
 // add new post
 export const addNewPost = (formData, history, ID) => {
-  console.log(formData);
+  // console.log(formData);
   return async (dispatch) => {
     // for changing loading state
     await dispatch({
@@ -78,7 +78,7 @@ export const addNewPost = (formData, history, ID) => {
         });
       }
 
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       dispatch({
         type: ADD_NEW_POST_SUCCESS,
         payload: res.data.data.data,
@@ -89,7 +89,7 @@ export const addNewPost = (formData, history, ID) => {
       const errors = error.response.data.errors;
       await dispatch({ type: CHANGE_LOADING });
 
-      console.log(errors);
+      // console.log(errors);
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
       }
@@ -103,7 +103,7 @@ export const updateLike = (post_ID) => {
   return async (dispatch) => {
     try {
       const res = await axios.patch(`/api/v1/posts/like/${post_ID}`);
-      console.log(res);
+      // console.log(res);
       await dispatch({
         type: UPDATE_LIKE,
         payload: res.data.data.data,
@@ -126,12 +126,12 @@ export const deleteSinglePost = (ID) => {
       dispatch({
         type: POST_INIT,
       });
-      const res = await axios.delete(`/api/v1/posts/${ID}`);
-      console.log(res);
+      await axios.delete(`/api/v1/posts/${ID}`);
+      // console.log(res);
       await dispatch({ type: POST_DELETE_SUCCESS, id: ID });
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(errors);
+      // console.log(errors);
       await dispatch({ type: CHANGE_LOADING });
       if (errors) {
         errors.forEach((el) => dispatch(setAlert(el.msg, 'error')));
@@ -142,7 +142,7 @@ export const deleteSinglePost = (ID) => {
 
 // add new location
 export const addNewLocation = (formData, history, ID) => {
-  console.log(formData);
+  // console.log(formData);
   return async (dispatch) => {
     // for changing loading state
     await dispatch({
@@ -162,7 +162,7 @@ export const addNewLocation = (formData, history, ID) => {
         }
       );
 
-      console.log(res.data.data.data);
+      // console.log(res.data.data.data);
       // we are sending only location to our reducer cause if wee send the whole data we have to populate the comments again
       dispatch({
         type: ADD_LOCATION_SUCCESS,

@@ -48,7 +48,7 @@ export const Login = () => {
         <input type='submit' className='btn btn-primary' value='Login' />
       </form>
       <p className='my-1'>
-        Create a new Account? <Link to='/signup'>Sign In</Link>
+        Create a new Account? <Link to='/signup'>Register</Link>
       </p>
     </section>
   );

@@ -12,6 +12,7 @@ export const Post = () => {
 
   const [loading, setLoading] = useState(true);
   const { post } = useSelector((state) => state.post);
+  const { user } = useSelector((state) => state.auth);
   const postId = useParams().id;
   useEffect(() => {
     dispatch(getPostByPostId(postId));
@@ -20,8 +21,9 @@ export const Post = () => {
     // even if there is not any postId we have to change the loading state to false
   }, [dispatch, postId]);
   if (post) {
-    console.log(post.locations);
+    // console.log(post.locations);
   }
+  const userName = user.name;
   return (
     !loading &&
     post && (
@@ -30,7 +32,8 @@ export const Post = () => {
           <div>
             <Link to={`/profile/${post.user._id}`}>
               <img className='round-img' src={post.user.avatar} alt='' />
-              <h4>{post.user.name}</h4>
+
+              <h4>{post.user.name === userName ? 'You' : post.user.name}</h4>
             </Link>
           </div>
           <div>

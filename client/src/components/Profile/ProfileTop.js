@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const ProfileTop = ({ profile }) => {
-  console.log(profile);
+  // console.log(profile);
   const {
     status,
     location,

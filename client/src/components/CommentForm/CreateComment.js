@@ -43,7 +43,7 @@ export const CreateComment = ({ commentId, postId, closeModal }) => {
 
       await dispatch(addNewComment(formData, postId, commentId));
       if (postId && commentId) {
-        console.log(postId, commentId);
+        // console.log(postId, commentId);
         closeModal();
       }
     } catch (error) {}

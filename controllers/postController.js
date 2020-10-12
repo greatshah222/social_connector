@@ -17,7 +17,7 @@ exports.createNewPost = async (req, res) => {
     coordinates = await convertAddresstoCoordinates(startAddress);
   } catch (error) {
     return res.status(400).json({
-      msg: 'Please provide the valid address',
+      errors: [{ msg: 'Please provide the valid address' }],
     });
   }
   console.log(coordinates);
@@ -49,14 +49,14 @@ exports.updatePostDetail = async (req, res) => {
     coordinates = await convertAddresstoCoordinates(startAddress);
   } catch (error) {
     return res.status(400).json({
-      msg: 'Please provide the valid address',
+      errors: [{ msg: 'Please provide the valid address' }],
     });
   }
 
   const post = await Post.findById(req.params.id);
   if (!post) {
     return res.status(400).json({
-      msg: 'No documnent found',
+      errors: [{ msg: 'No document found' }],
     });
   }
   if (coordinates) post.startLocation.coordinates = coordinates;
@@ -161,7 +161,7 @@ exports.addMoreLocations = async (req, res) => {
     coordinates = await convertAddresstoCoordinates(address);
   } catch (error) {
     return res.status(400).json({
-      msg: 'Please provide the valid address',
+      errors: [{ msg: 'Please provide the valid address' }],
     });
   }
   const locationDetail = {};
@@ -171,8 +171,8 @@ exports.addMoreLocations = async (req, res) => {
   if (day) locationDetail.day = day;
   const post = await Post.findById(req.params.id);
   if (!post) {
-    return res.status(404).json({
-      msg: 'No post found to add more locations.',
+    return res.status(400).json({
+      errors: [{ msg: 'No post found to add more locations' }],
     });
   }
   post.locations.push(locationDetail);
